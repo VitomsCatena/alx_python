@@ -1,0 +1,1 @@
+This is my first time learning python this repository will contain all the tasks and projects about it i hope i won't let myself down.
