@@ -3,11 +3,11 @@ import random
 
 number = random.randint(-10, 10)
 
-print("The number", number, end=" ")
-
 if number > 0:
-    print("is positive")
+    sign = "positive"
 elif number == 0:
-    print("is zero")
+    sign = "zero"
 else:
-    print("is negative")
+    sign = "negative"
+
+print("{} is {}".format(number, sign))
