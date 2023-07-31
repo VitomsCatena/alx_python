@@ -1,20 +1,5 @@
-def safe_print_division(a, b):
-    try:
-        result = a / b
-    except ZeroDivisionError:
-        result = None
-    finally:
-        print("Inside result: {}".format(result))
-    return result
+#!/usr/bin/env python3
 
-# Test cases
 if __name__ == "__main__":
-    a = 12
-    b = 2
-    result = safe_print_division(a, b)
-    print("{:d} / {:d} = {}".format(a, b, result))
-
-    a = 12
-    b = 0
-    result = safe_print_division(a, b)
-    print("{:d} / {:d} = {}".format(a, b, result))
+     from variable_load_2 import a
+     print(a)
