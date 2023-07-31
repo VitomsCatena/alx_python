@@ -1,17 +1,10 @@
-import importlib
+#!/usr/bin/python3
 
-# Define the add function to be used in this file
-def add(a, b):
-    return a + b
+from add_0 import add
 
-# Define the variables a and b
-a = 1
-b = 2
+if __name__ == "__main__":
+    a = 1
+    b = 2
 
-# Import the add function from add_0.py using importlib
-add_module = importlib.import_module('add_0')
-add_func = getattr(add_module, 'add')
-
-# Print the result using string formatting
-result = add_func(a, b)
-print(f"{a} + {b} = {result}")
+    result = add(a, b)
+    print("{} + {} = {}".format(a, b, result))
