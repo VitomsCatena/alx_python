@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 """
 Script to print the first State object from a MySQL database using SQLAlchemy
 """
