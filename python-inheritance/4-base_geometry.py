@@ -1,36 +1,24 @@
 #!/usr/bin/python3
+#!/usr/bin/python3
 """
-4-base_geometry module
+3-base_geometry module
 
-Define a class BaseGeometry with the area() method.
+Define an empty class BaseGeometry.
 """
 
 
 class BaseGeometry:
     """
-    BaseGeometry class.
+    An empty class representing BaseGeometry.
     """
 
     def area(self):
         """
-        Public instance method to calculate area.
+        Public instance method that raises an Exception with the message 'area() is not implemented'.
         """
         raise Exception("area() is not implemented")
-
-    def __dir__(self):
-        """
-        Override the dir() method to include the area() method in the list of attributes for the instance.
-        """
-        attributes = super().__dir__()
-        # Add area() to the list of attributes for the instance
-        attributes.append('area')
-        return attributes
 
 
 if __name__ == "__main__":
     bg = BaseGeometry()
-    try:
-        print(bg.area())
-    except Exception as e:
-        print("[{}] {}".format(e.__class__.__name__, e))
-    print(dir(bg))
+    bg.area()
