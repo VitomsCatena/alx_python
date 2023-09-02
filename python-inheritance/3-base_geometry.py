@@ -35,4 +35,7 @@ if __name__ == "__main__":
 
     print(BaseGeometry)
     print(class_dir(BaseGeometry))
+    
+BaseGeometry = __import__('3-base_geometry').BaseGeometry
 
+print(dir(BaseGeometry))
