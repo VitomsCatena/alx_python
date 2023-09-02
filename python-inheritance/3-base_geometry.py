@@ -5,7 +5,6 @@
 Define an empty class BaseGeometry.
 """
 
-
 class BaseGeometry:
     """
     An empty class representing BaseGeometry.
@@ -20,7 +19,6 @@ class BaseGeometry:
         attributes = [attr for attr in attributes if attr != "__init_subclass__"]
         return attributes
 
-
 def class_dir(cls):
     """
     Override the dir() method to exclude __init_subclass__ from the list of attributes for the class.
@@ -30,9 +28,10 @@ def class_dir(cls):
     attributes = [attr for attr in attributes if attr != "__init_subclass__"]
     return attributes
 
-
 if __name__ == "__main__":
     bg = BaseGeometry()
     print(bg)
     print(dir(bg))
-    print(class_dir(BaseGeometry()))
+
+    print(BaseGeometry)
+    print(class_dir(BaseGeometry))
