@@ -1,37 +1,28 @@
 #!/usr/bin/python3
 """
-3-base_geometry module
-
-Define an empty class BaseGeometry.
+This module is an empty class 
 """
+class OverrideMetaClass(type):
+    """def __new__(cls, name, bases, attrs):
+        # Customize the class creation process here
+        return super().__new__(cls, name, bases, attrs)"""
 
-class BaseGeometry:
-    """
-    An empty class representing BaseGeometry.
-    """
-
-    def __dir__(self):
+    def __dir__(cls):
         """
-        Override the dir() method to exclude __init_subclass__ from the list of attributes for the instance.
+        Returns:
+            list: List of attributes excluding __init_subclass__.
         """
-        attributes = super().__dir__()
-        # Exclude __init_subclass__ from the list of attributes for the instance
-        attributes = [attr for attr in attributes if attr != "__init_subclass__"]
-        return attributes
+        return [attribute for attribute in
+                super().__dir__() if attribute != '__init_subclass__']
 
-def class_dir(cls):
+
+class BaseGeometry(metaclass=OverrideMetaClass):
     """
-    Override the dir() method to exclude __init_subclass__ from the list of attributes for the class.
+    This class models an empty class
     """
-    attributes = super(cls).__dir__()
-    # Exclude __init_subclass__ from the list of attributes for the class
-    attributes = [attr for attr in attributes if attr != "__init_subclass__"]
-    return attributes
-
-if __name__ == "__main__":
-    bg = BaseGeometry()
-    print(bg)
-    print(dir(bg))
-
-    print(BaseGeometry)
-    print(class_dir(BaseGeometry))
+    def __dir__(cls) -> None:
+        """
+        control access to some inherited attributes
+        """
+        return [attribute for attribute in super().__dir__() if attribute != '__init_subclass__']
+        
