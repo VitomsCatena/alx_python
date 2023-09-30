@@ -49,3 +49,7 @@ if __name__ == "__main__":
 
     get_employee_info(employee_id)
 
+# Display employee progress
+print(f"Employee {employee_name} is done with tasks({num_completed_tasks}/{total_tasks}):")
+for task in completed_tasks:
+    print(f"\t{task['title']}")
