@@ -3,7 +3,7 @@ import requests
 import sys
 
 
-
+ 
 def  get_data(id):
     user_data_url = f'https://jsonplaceholder.typicode.com/users/{id}'
     user_todos_url = f'https://jsonplaceholder.typicode.com/users/{id}/todos'
