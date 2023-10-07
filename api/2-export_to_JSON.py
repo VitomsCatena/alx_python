@@ -1,57 +1,79 @@
 #!/usr/bin/python3
-import requests
-import json
-import sys
 
-def get_employee_info(employee_id):
-    # Fetch employee details
+   """This program fetches employee data and exports it to both CSV and JSON format
+
+"""
+import csv, json, requests, sys
+
+def get_employee_data(employee_id):
+    # URL to fetch employee details
     employee_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
-    response = requests.get(employee_url)
-    employee_data = response.json()
-
-    if response.status_code != 200:
-        print(f"Error: Unable to fetch employee data for ID {employee_id}")
-        return
-
-    user_id = employee_data["id"]
-    username = employee_data["username"]
-
-    # Fetch TODO list for the employee
+    # URL to fetch employee TO DO list
     todos_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}/todos"
-    response = requests.get(todos_url)
-    todos_data = response.json()
+    
+    try:
+        # Fetch employee data
+        response_employee = requests.get(employee_url)
+        response_employee.raise_for_status()
+        employee_data = response_employee.json()
+        
+        # Fetch employee TO DO list
+        response_todos = requests.get(todos_url)
+        response_todos.raise_for_status()
+        todos_data = response_todos.json()
+        
+        return employee_data,todos_data
+    
+    except requests.exceptions.HTTPError as e:
+        print(f"Error: {e}")
+        sys.exit(1)
 
-    if response.status_code != 200:
-        print(f"Error: Unable to fetch TODO list for ID {employee_id}")
-        return
+def export_to_csv(employee_id, employee_name, todos_data):
+    csv_filename = f"{employee_id}.csv"
+    
+    with open(csv_filename, mode="w", newline="") as csv_file:
+        csv_writer = csv.writer(csv_file)
+        
+        # Write the CSV header
+        csv_writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
+        
+        # Write the tasks data
+        for todo in todos_data:
+            csv_writer.writerow([employee_id, employee_name, todo["completed"], todo["title"]])
 
-    # Create a dictionary to store tasks
-    tasks_dict = {user_id: []}
+def export_to_json(employee_id, employee_name, todos_data):
+    json_filename = f"{employee_id}.json"
+    json_data = {
+        "USER_ID": [
+            {
+                "task": todo["title"],
+                "completed": todo["completed"],
+                "username": employee_name
+            }
+            for todo in todos_data
+        ]
+    }
+    with open(json_filename, "w") as json_file:
+        json.dump(json_data, json_file)
 
-    for task in todos_data:
-        task_dict = {
-            "task": task["title"],
-            "completed": task["completed"],
-            "username": username
-        }
-        tasks_dict[user_id].append(task_dict)
-
-    # Export data to JSON file
-    json_file_name = f"{user_id}.json"
-    with open(json_file_name, 'w') as json_file:
-        json.dump(tasks_dict, json_file, indent=4)
-
-    print(f"Data exported to {json_file_name}")
-
-if __name__ == "__main__":
+def main():
     if len(sys.argv) != 2:
         print("Usage: python script.py <employee_id>")
         sys.exit(1)
+        
+    employee_id = int(sys.argv[1])
+    employee_data, todos_data = get_employee_data(employee_id)
+    
+    # Extract employee information
+    employee_name = employee_data.get("name")
+    
+    # Export data to csv
+    export_to_csv(employee_id, employee_name, todos_data)
+    print(f"Data exported to {employee_id}.csv")
+    
+    # Export data to JSON
+    export_to_json(employee_id, employee_name, todos_data)
+    print(f"Data exported to {employee_id}.json")
 
-    try:
-        employee_id = int(sys.argv[1])
-    except ValueError:
-        print("Error: Employee ID must be an integer")
-        sys.exit(1)
-
-    get_employee_info(employee_id)
+if __name__ == "__main__":
+    main()
